@@ -1,0 +1,93 @@
+Multi-Agent Startup Simulator – MVP Guide
+1. Overview
+A multi-agent AI system that simulates a startup team. Each AI agent plays a role (CEO,
+Developer, Marketing, Finance) and collaborates to turn an idea into a business plan.
+2. Core Idea
+User inputs a startup idea. The system breaks it down and multiple AI agents generate
+strategy, product, marketing, and financial insights.
+3. Architecture
+1
+User Input → Orchestrator → Agents → Aggregation → UI
+2
+Agents: CEO (strategy), Dev (features), Marketing (promotion), Finance (costs)
+3
+Orchestrator controls flow and context passing
+4. Tech Stack
+1
+Frontend: React + Tailwind
+2
+Backend: FastAPI
+3
+AI: HuggingFace Inference API (Mistral/LLaMA)
+4
+Storage: Python dict or SQLite
+5. Folder Structure
+1
+backend/: main.py, agents.py, orchestrator.py
+2
+frontend/: components/, pages/, api.js
+6. Agent Design
+1
+CEO Agent: Vision, roadmap
+2
+Dev Agent: Features, tech stack
+3
+Marketing Agent: Campaigns, branding
+4
+Finance Agent: Cost, revenue
+7. Orchestrator Logic
+1
+Receive idea
+2
+Call CEO agent
+3
+Pass CEO output to Dev
+4
+Call Marketing and Finance
+5
+Combine outputs
+8. Sample Backend Flow
+POST /simulate → process idea → call agents → return structured output
+9. Sample Code
+
+def simulate(idea):
+    ceo = call_llm("CEO prompt" + idea)
+    dev = call_llm("Dev prompt" + ceo)
+    marketing = call_llm("Marketing prompt" + ceo)
+    finance = call_llm("Finance prompt" + ceo + dev)
+    return {"ceo": ceo, "dev": dev, "marketing": marketing, "finance": finance}
+10. UI Design
+1
+Input field for idea
+2
+Agent cards showing outputs
+3
+Step-by-step execution visualization
+11. Demo Flow
+1
+User inputs idea
+2
+Agents process sequentially
+3
+Outputs displayed with animations
+12. HuggingFace Setup
+1
+Create API token
+2
+Use text-generation model
+3
+Send POST requests to inference API
+13. Mistakes to Avoid
+1
+Do not call LLM only once
+2
+Do not skip agent separation
+3
+Do not ignore UI
+14. Winning Tips
+1
+Show agent interaction visually
+2
+Keep UI clean
+3
+Focus on smooth demo
