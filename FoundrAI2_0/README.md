@@ -1,234 +1,136 @@
-# FoundrAI 2.0 🤖🏛️
+<div align="center">
+  <h1>🚀 FoundrAI 2.0</h1>
+  <p><strong>The Agentic AI Startup Accelerator & Simulator</strong></p>
+  <p><i>Turn a single sentence into a fully validated, funded-ready startup pitch, architecture, and code repository in under 60 seconds.</i></p>
+</div>
 
-> **A Deliberative, Consensus-Driven Multi-Agent AI Startup Simulator**
+<br />
 
-FoundrAI 2.0 upgrades the classic single-pass AI pipeline into a **round-table of specialized AI agents** that debate, critique, revise, and converge on a validated business plan — then export it as a polished **PDF**.
+## 📖 Overview
 
-![FoundrAI 2.0 Architecture](https://img.shields.io/badge/Architecture-Multi--Agent%20Deliberative-6366f1?style=for-the-badge)
-![Stack](https://img.shields.io/badge/Stack-FastAPI%20%7C%20React%20%7C%20Docker-3b82f6?style=for-the-badge)
-![Model](https://img.shields.io/badge/AI-Qwen2.5%20via%20HuggingFace-10b981?style=for-the-badge)
+**FoundrAI 2.0** is an autonomous multi-agent ecosystem designed to simulate an entire startup founding team. Instead of spending weeks validating an idea, researching the market, finding risks, and writing boilerplates, FoundrAI orchestrates a "Round Table" of specialized AI agents to interrogate, refine, and deploy your startup idea instantly.
 
----
-
-## ✨ What Makes This Different
-
-| Feature | FoundrAI 1.0 | **FoundrAI 2.0** |
-|---|---|---|
-| Agent execution | Sequential pipeline | **Parallel + iterative** |
-| Agent behavior | Generate output | **Generate → Critique → Revise** |
-| Consensus | None | **Scored feedback loop (target 7.5/10)** |
-| Output | Text cards | **Structured business plan + PDF** |
-| UI | Agent cards | **Live round-table with chat feed** |
-| API calls | Fixed | **Fast mode (~6) / Deep mode (~14)** |
+Built entirely for the **Hack2Skills Hackathon**, this project demonstrates the power of autonomous agent communication, Retrieval-Augmented Generation (RAG), and Human-in-the-Loop deployments.
 
 ---
 
-## 🏛️ System Architecture
+## ✨ Core Concepts
 
+### 1. Multi-Agent Orchestration
+FoundrAI moves beyond simple chatbots by establishing an **Agentic Round Table**. Specialized agents (CEO, Risk Manager, CMO) don't just output text—they engage in a sequence of dependent actions, using live tools, scraping the web, and challenging each other's assumptions to yield a bulletproof business plan.
+
+### 2. Grounded Reasoning via RAG (ChromaDB)
+To ensure the AI doesn't hallucinate generic advice, the system is grounded in a robust **Retrieval-Augmented Generation (RAG)** vector database using ChromaDB. Before the CEO speaks, it queries a embedded index of:
+- *Paul Graham's Essays*
+- *Y Combinator Startup Advice*
+- *Successful Seed Pitch Decks*
+- *Startup Failure Post-Mortems*
+
+The agents speak with the combined wisdom of Silicon Valley's best operators.
+
+### 3. "Hands" & Autonomy (Tool Use)
+Our agents are equipped with "hands" (API Tools) to touch the real world:
+- **Tavily AI Search**: Scrapes live internet data for competitor analysis.
+- **GitHub Search**: Checks if similar open-source tools already exist.
+- **Reddit Sentiment Analysis**: Queries localized demographic posts for actual customer pain points.
+- **PyGithub Deployment**: The Developer agent autonomously initiates a Git repo and pushes boilerplate code.
+
+---
+
+## 🤖 The Founding Team (Agents)
+
+| Agent | Role & Capabilities | Output |
+| :--- | :--- | :--- |
+| 👔 **The CEO (Vision & Strategy)** | Grounded by ChromaDB RAG. Acts as the orchestrator. Takes the raw idea and aligns it with YC principles. | `Pitch Deck & Core Value Proposition` |
+| 🕵️ **Risk & Reality Check** | The ultimate skeptic. Uses Reddit semantic searches and GitHub API to find why the idea will fail or who has already built it. | `Risk Matrix & Mitigation Plan` |
+| 📈 **Chief Marketing Officer** | Uses Tavily Search API to scan live competitor landing pages and keyword trends to find the blue-ocean GTM strategy. | `Go-to-Market (GTM) & Growth Loop` |
+| 💻 **Lead Developer (Autonomy)** | Doesn't just write code—it acts. Given the final plan, it generates an architecture, a `docker-compose.yml`, and uses GitHub to autonomously commit the boilerplate. | `Live GitHub Repository & Tech Stack` |
+
+---
+
+## 🏗 System Architecture 
+
+```mermaid
+graph TD;
+    User([User Idea]) --> UI(React Frontend UI);
+    UI -- "POST /launch" --> FastAPI(FastAPI Backend);
+    
+    FastAPI --> CEO[CEO Agent];
+    
+    CEO -- "Query" --> ChromaDB[(ChromaDB RAG \n YC Data, PG Essays)];
+    CEO --> MasterPlan{Core Strategy};
+    
+    MasterPlan --> Risk[Risk Agent];
+    Risk -- Tools --> Reddit[(Reddit Pain Points)];
+    Risk -- Tools --> GithubSearch[(Github Competitors)];
+    
+    MasterPlan --> CMO[CMO Agent];
+    CMO -- Tools --> Tavily(Tavily Live Web Search);
+    
+    MasterPlan --> Dev[Dev Agent];
+    Dev -- "Creates Repo" --> GithubRepo[(Live Private Repo)];
+    
+    Risk --> Final(Synthesized Dashboard);
+    CMO --> Final;
+    Dev --> Final;
+    
+    Final --> UI;
 ```
-User Idea
-    │
-    ▼
-┌──────────────────────────────────────┐
-│  Phase 1 · CEO Proposal              │  Primary agent drafts the initial vision
-└──────────────────────────────────────┘
-    │
-    ▼
-┌──────────────────────────────────────────────────────────────┐
-│  Phase 2 · Parallel Critique (all specialists simultaneously) │
-│  ┌───────────┐  ┌──────────┐  ┌───────────┐  ┌──────────┐  │
-│  │ Developer │  │ Finance  │  │ Marketing │  │  Risk    │  │
-│  │ Feasible? │  │ Viable?  │  │ Traction? │  │ Safe?    │  │
-│  │ [score]   │  │ [score]  │  │ [score]   │  │ [score]  │  │
-│  └───────────┘  └──────────┘  └───────────┘  └──────────┘  │
-└──────────────────────────────────────────────────────────────┘
-    │
-    ▼  ← iterates until avg score ≥ 7.5 or max rounds
-┌──────────────────────────────────────┐
-│  Phase 3 · Revision & Negotiation    │  CEO revises; agents re-score
-└──────────────────────────────────────┘
-    │
-    ▼
-┌──────────────────────────────────────┐
-│  Phase 4 · Synthesis                 │  Chief Strategist produces final plan
-└──────────────────────────────────────┘
-    │
-    ▼
-┌─────────────────────┐
-│  PDF Business Plan  │  Downloadable, styled with reportlab
-└─────────────────────┘
-```
 
 ---
 
-## 🚀 Quick Start
+## 🛠 Tech Stack
+
+*   **Frontend**: React, Vite, Vanilla CSS (Custom modern dark-theme tokens, glassmorphism UI, complex asynchronous states).
+*   **Backend**: Python, FastAPI, Uvicorn (Fully async API routing).
+*   **Agentic Framework**: Custom LLM Orchestrator parsing tool-calls and multi-agent loops.
+*   **LLM Provider**: Hugging Face Inference API (`meta-llama`), optimizing local compute. 
+*   **Vector Database**: ChromaDB (Idempotent local SQLite + HuggingFace Embeddings API `all-MiniLM-L6`).
+*   **Infrastructure**: Docker + Docker Compose (Isolated, multi-container deployment).
+*   **External APIs**: Tavily (Search), PyGithub (Deployment), standard `requests`.
+
+---
+
+## 🚀 How to Run Locally
 
 ### Prerequisites
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
-- A [Hugging Face](https://huggingface.co) account with an API token
+- Docker and Docker Compose
+- A Hugging Face Token (`HF_TOKEN`)
+- A Tavily API Key (`TAVILY_API_KEY`)
+- A GitHub Classic PAT token with repo scopes (`GITHUB_TOKEN`)
 
-### 1. Clone & Configure
+### Setup
 
-```bash
-git clone <your-repo-url>
-cd FoundrAI2_0
-```
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/your-username/FoundrAI2_0.git
+   cd FoundrAI2_0
+   ```
 
-Edit `backend/.env` and set your HuggingFace token:
-```env
-HF_TOKEN=hf_your_token_here
-```
+2. **Configure Environment Variables:**
+   You must set up your API keys before running the accelerator.
+   Go into the `/backend` directory and copy the placeholder file:
+   ```bash
+   cd backend
+   cp .env.example .env
+   ```
+   Then open `.env` and **replace the placeholders** with your actual API keys:
+   ```env
+   HF_TOKEN=your_real_huggingface_token
+   TAVILY_API_KEY=your_real_tavily_token
+   GITHUB_TOKEN=your_real_github_token
+   ```
 
-### 2. Launch with Docker
+3. **Deploy the Stack via Docker:**
+   FoundrAI uses Docker Compose to manage both the React frontend and the RAG-enabled Python backend.
+   ```bash
+   docker compose up -d --build
+   ```
 
-```bash
-docker compose up -d --build
-```
-
-This builds and starts:
-- **Backend** → `http://localhost:8000` (FastAPI + Uvicorn)
-- **Frontend** → `http://localhost:5173` (React via Nginx)
-
-### 3. Open the App
-
-Navigate to **[http://localhost:5173](http://localhost:5173)** in your browser.
-
----
-
-## 🎮 How to Use
-
-1. **Type your startup idea** in the text area
-2. **Choose a mode:**
-   - ⚡ **Fast Mode** — ~6 API calls, results in ~20-30 seconds (CEO + Dev + Finance)
-   - 🧠 **Deep Mode** — up to 14 API calls, all 5 agents + 2 revision rounds
-3. **Click Launch** — watch the AI round table come alive:
-   - Phase indicator shows current stage
-   - Live chat feed streams agent discussion
-   - Consensus meter rises as agents align
-4. **Explore the Business Plan** using the section tabs
-5. **Download the PDF** once consensus is reached
+4. **Launch the Accelerator:**
+   Open `http://localhost:5173` in your browser. Enter a startup idea, and watch your founding team go to work.
 
 ---
-
-## 🛠️ Tech Stack
-
-### Backend
-| Technology | Purpose |
-|---|---|
-| **FastAPI** | REST API + Server-Sent Events (SSE) streaming |
-| **`huggingface_hub`** | InferenceClient for AI model calls |
-| **Qwen/Qwen2.5-72B-Instruct** | Primary LLM (Deep mode) |
-| **Qwen/Qwen2.5-7B-Instruct** | Fast mode LLM |
-| **reportlab** | PDF generation |
-| **asyncio.gather** | Parallel agent execution |
-
-### Frontend
-| Technology | Purpose |
-|---|---|
-| **React 18** | UI framework |
-| **Vite** | Build tool |
-| **Lucide React** | Icons |
-| **Vanilla CSS** | Styling (glassmorphism, animations) |
-| **Server-Sent Events** | Real-time streaming from backend |
-
-### Infrastructure
-| Technology | Purpose |
-|---|---|
-| **Docker + Docker Compose** | Containerization |
-| **Nginx** | Serving the built React app |
-
----
-
-## 📂 Project Structure
-
-```
-FoundrAI2_0/
-├── backend/
-│   ├── agents.py          # Agent propose/critique/revise/synthesize logic
-│   ├── orchestrator.py    # 4-phase SSE streaming pipeline
-│   ├── pdf_generator.py   # reportlab PDF export
-│   ├── main.py            # FastAPI app: /simulate, /download-report, /health
-│   ├── requirements.txt
-│   ├── Dockerfile
-│   └── .env               # HF_TOKEN goes here
-├── frontend/
-│   ├── src/
-│   │   ├── App.jsx        # Round-table UI with chat feed, consensus meter, plan tabs
-│   │   ├── index.css      # Full design system: glassmorphism, animations, layout
-│   │   └── main.jsx
-│   ├── index.html
-│   ├── package.json
-│   ├── vite.config.js
-│   └── Dockerfile
-├── docker-compose.yml
-└── README.md
-```
-
----
-
-## 🔌 API Reference
-
-### `POST /simulate`
-Start a simulation. Returns a **Server-Sent Events** stream.
-
-**Request body:**
-```json
-{
-  "idea": "An AI-powered app that generates personalized diets based on blood tests",
-  "fast": true
-}
-```
-
-**SSE Event types emitted:**
-| Type | Description |
-|---|---|
-| `system_start` | Simulation begins |
-| `phase_change` | Phase transition (1-4) |
-| `agent_thinking` | Agent is computing |
-| `proposal` | CEO initial proposal |
-| `critique` | Agent critique + score |
-| `revision` | CEO revised proposal |
-| `re_score` | Agent re-evaluation |
-| `consensus_update` | Average score update |
-| `consensus_reached` | Convergence achieved |
-| `final_plan` | Structured business plan |
-| `pdf_ready` | PDF available for download |
-| `system_done` | Simulation complete |
-
-### `GET /download-report`
-Download the generated PDF business plan.
-
-### `GET /health`
-Health check: `{"status": "ok", "service": "FoundrAI 2.0"}`
-
----
-
-## 🎨 UI Features
-
-- **Pentagon agent layout** — agents arranged in a round-table with a live consensus score in the center
-- **Live chat bubbles** — each event appears as a real-time message with agent color coding
-- **Consensus meter** — animated progress bar with 7.5/10 threshold marker
-- **Convergence banner** — green confirmation when all agents align
-- **Tabbed business plan** — 5 clickable sections (Exec Summary, Tech Stack, Finance, Marketing, Risk)
-- **PDF download button** — appears on convergence, fetches from `/download-report`
-- **Fast/Deep mode toggle** — switch between speed and depth before launching
-
----
-
-## ⚙️ Environment Variables
-
-| Variable | Required | Description |
-|---|---|---|
-| `HF_TOKEN` | ✅ | Hugging Face API token (from [hf.co/settings/tokens](https://huggingface.co/settings/tokens)) |
-
----
-
-## 📜 License
-
-MIT License — feel free to fork, modify, and build upon this.
-
----
-
-## 🙌 Acknowledgements
-
-Built for the **Hack2Skills Hackathon** — demonstrating deliberative multi-agent AI systems using open-source LLMs and modern web tooling.
+<div align="center">
+  <i>Built with ❤️ for the Hack2Skills Hackathon.</i>
+</div>

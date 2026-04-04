@@ -1,3 +1,13 @@
+"""
+FoundrAI 2.0 — Orchestrator
+4-Phase deliberative pipeline with tool-use SSE events.
+
+Event order per agent:
+  tool_call   → agent is querying an external API
+  tool_result → snippet of what the tool returned
+  proposal / critique / revision → LLM synthesis grounded in real data
+"""
+
 import asyncio
 import json
 from agents import (
@@ -7,15 +17,38 @@ from agents import (
 
 CONSENSUS_THRESHOLD = 7.5
 
+
 def sse(data: dict) -> str:
     return f"data: {json.dumps(data)}\n\n"
 
+
+def _emit_tool_events(result: dict, phase: int) -> list[str]:
+    """Return tool_call + tool_result SSE strings if the agent used a tool."""
+    events = []
+    if result.get("tool_name"):
+        events.append(sse({
+            "type": "tool_call",
+            "agent": result["agent"],
+            "tool": result["tool_name"],
+            "query": result.get("tool_query", ""),
+            "phase": phase,
+        }))
+        events.append(sse({
+            "type": "tool_result",
+            "agent": result["agent"],
+            "tool": result["tool_name"],
+            "snippet": result.get("tool_result_snippet", ""),
+            "phase": phase,
+        }))
+    return events
+
+
 async def run_simulation_stream(idea: str, fast: bool = False):
     """
-    4-Phase deliberative consensus pipeline streamed via SSE.
-
-    Fast mode  (~6 API calls): 1 proposal + 2 critiques + 1 revision + 1 synthesis + done
-    Normal mode (~10-14 calls): 1 proposal + 4 critiques + up to 2 revision rounds + 1 synthesis
+    Fast mode  (~8 calls):  1 proposal + 2 critiques + 1 revision + 1 synthesis
+                            + 3 tool calls (Tavily×1, GitHub×1, Trends×1)
+    Normal mode (~16 calls): 1 proposal + 4 critiques + 1 revision + re-score + 1 synthesis
+                             + 5 tool calls (all agents)
     """
 
     # ── SYSTEM START ─────────────────────────────────────────────────────────
@@ -25,21 +58,29 @@ async def run_simulation_stream(idea: str, fast: bool = False):
     yield sse({"type": "phase_change", "phase": 1, "label": "CEO Proposal"})
     yield sse({"type": "agent_thinking", "agent": "CEO", "phase": 1})
 
-    proposal = await asyncio.to_thread(ceo_propose, idea, fast)
-    yield sse({"type": "proposal", "agent": "CEO", "phase": 1, "content": proposal})
+    ceo_result = await asyncio.to_thread(ceo_propose, idea, fast)
+
+    # Stream tool events first
+    for event in _emit_tool_events(ceo_result, 1):
+        yield event
+
+    proposal = ceo_result["content"]
+    yield sse({
+        "type": "proposal", "agent": "CEO", "phase": 1,
+        "content": proposal,
+        "grounded_by": ceo_result.get("tool_name"),
+    })
 
     # ── PHASE 2: PARALLEL CRITIQUE ───────────────────────────────────────────
     yield sse({"type": "phase_change", "phase": 2, "label": "Parallel Critique"})
 
     if fast:
-        # Fast mode: only Dev + Finance critique (2 calls)
         critic_agents = ["Developer", "Finance"]
         critique_fns = [
             asyncio.to_thread(dev_critique, idea, proposal, True),
             asyncio.to_thread(finance_critique, idea, proposal, True),
         ]
     else:
-        # Normal mode: all 4 specialists critique (4 calls)
         critic_agents = ["Developer", "Finance", "Marketing", "Risk"]
         critique_fns = [
             asyncio.to_thread(dev_critique, idea, proposal, False),
@@ -51,13 +92,18 @@ async def run_simulation_stream(idea: str, fast: bool = False):
     for agent in critic_agents:
         yield sse({"type": "agent_thinking", "agent": agent, "phase": 2})
 
-    # Run all critiques in parallel
     critique_results = await asyncio.gather(*critique_fns)
     all_critiques = list(critique_results)
 
+    # Emit tool events then critique for each agent
     for c in all_critiques:
-        yield sse({"type": "critique", "agent": c["agent"], "phase": 2,
-                   "content": c["content"], "score": c["score"]})
+        for event in _emit_tool_events(c, 2):
+            yield event
+        yield sse({
+            "type": "critique", "agent": c["agent"], "phase": 2,
+            "content": c["content"], "score": c["score"],
+            "grounded_by": c.get("tool_name"),
+        })
 
     avg_score = sum(c["score"] for c in all_critiques) / len(all_critiques)
     yield sse({"type": "consensus_update", "score": round(avg_score, 1), "round": 0})
@@ -66,35 +112,41 @@ async def run_simulation_stream(idea: str, fast: bool = False):
     yield sse({"type": "phase_change", "phase": 3, "label": "Negotiation & Revision"})
 
     current_proposal = proposal
-    max_rounds = 1 if fast else 2  # fast=1 revision, normal=up to 2
+    max_rounds = 1 if fast else 2
 
     for round_num in range(1, max_rounds + 1):
         if avg_score >= CONSENSUS_THRESHOLD:
             break
 
-        # CEO revises
         yield sse({"type": "agent_thinking", "agent": "CEO", "phase": 3})
-        revised = await asyncio.to_thread(ceo_revise, idea, current_proposal, all_critiques, round_num, fast)
-        current_proposal = revised
-        yield sse({"type": "revision", "agent": "CEO", "phase": 3,
-                   "content": revised, "round": round_num})
+        revised_result = await asyncio.to_thread(
+            ceo_revise, idea, current_proposal, all_critiques, round_num, fast
+        )
+        current_proposal = revised_result["content"]
+        yield sse({
+            "type": "revision", "agent": "CEO", "phase": 3,
+            "content": current_proposal, "round": round_num,
+        })
 
         if fast or round_num == max_rounds:
-            # In fast mode we skip re-scoring to save calls
             break
 
-        # Re-score (only in normal mode, only round 1 to stay under budget)
+        # Re-score in normal mode (Dev + Finance only to stay under call budget)
         rescore_fns = [
-            asyncio.to_thread(dev_critique, idea, revised, False),
-            asyncio.to_thread(finance_critique, idea, revised, False),
+            asyncio.to_thread(dev_critique, idea, current_proposal, False),
+            asyncio.to_thread(finance_critique, idea, current_proposal, False),
         ]
         for a in ["Developer", "Finance"]:
             yield sse({"type": "agent_thinking", "agent": a, "phase": 3})
 
         new_scores = await asyncio.gather(*rescore_fns)
         for s in new_scores:
-            yield sse({"type": "re_score", "agent": s["agent"], "phase": 3,
-                       "content": s["content"], "score": s["score"]})
+            for event in _emit_tool_events(s, 3):
+                yield event
+            yield sse({
+                "type": "re_score", "agent": s["agent"], "phase": 3,
+                "content": s["content"], "score": s["score"],
+            })
 
         avg_score = sum(s["score"] for s in new_scores) / len(new_scores)
         yield sse({"type": "consensus_update", "score": round(avg_score, 1), "round": round_num})

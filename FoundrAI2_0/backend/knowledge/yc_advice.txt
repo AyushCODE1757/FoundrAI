@@ -1,0 +1,54 @@
+Y COMBINATOR STARTUP ADVICE & APPLICATION WISDOM
+================================================
+
+SOURCE: YC Application Questions & Common Patterns
+---------------------------------------------------
+YC asks: "What are you making?" The best answers are one sentence that a 10-year-old can understand. "We're making software that helps restaurants manage their inventory." Not: "We're building a multi-sided marketplace leveraging AI to optimize supply chain logistics."
+
+YC asks: "How do you know people want this?" The best answers cite direct evidence: "We talked to 40 restaurant owners. 32 said they lose at least $500/month from food waste they can't track. 8 are paying us $200/month to beta test." Not: "Market research shows the sector is growing."
+
+YC asks: "What's your revenue?" The best applications have some revenue — even $100/month. Revenue proves someone finds it valuable enough to pay. If you have no revenue, you need extraordinary proof of traction: waitlists of thousands, LOIs from enterprises, or a demo that clearly solves a painful problem.
+
+YC looks for: (1) A genuine insight others are missing. (2) High growth potential. (3) Founders who are uniquely suited to solve this problem. (4) Evidence of rapid execution.
+
+SOURCE: YC Batch Patterns — What Works
+----------------------------------------
+B2B SaaS consistently outperforms B2C at YC in terms of revenue per batch. Median B2B SaaS startup from a YC batch reaches $1M ARR within 18 months of Demo Day vs. 36+ months for consumer apps.
+
+The most successful YC startups in fintech: Stripe, Brex, Gusto, Mercury. Common pattern: (1) Started with one simple pain point, (2) built trust with small businesses first, (3) expanded product breadth only after reaching $10M ARR, (4) compliance was a competitive moat, not an obstacle.
+
+The most successful YC startups in marketplace: Airbnb, DoorDash, Instacart. Common pattern: (1) Hyper-focused geographic launch (one city, one neighborhood), (2) manually managed supply side first, (3) never launched both sides simultaneously, (4) unit economics positive at city level before expanding.
+
+The most successful YC startups in developer tools: Stripe, Segment, PagerDuty, HashiCorp. Common pattern: (1) Started with a product developers loved, (2) land-and-expand motions (free tier → team plan → enterprise), (3) grew by word-of-mouth in dev communities (HN, GitHub), (4) top-down sales came much later.
+
+SOURCE: YC Positioning Advice
+-------------------------------
+Never position as "X for Y" early in your pitch unless X is very well-known. "Stripe for Africa" is clear. "Canva for architects" is clear. "Asana for restaurants" is not — most people don't know what Asana does.
+
+The best positioning statements: (1) Name the enemy (the old way of doing it), (2) name who you're for, (3) name what you do, (4) name the one thing you do better than anyone. Example: "For small law firms still using spreadsheets to track billable hours, LawTrack replaces manual time-tracking with automatic billing that lawyers say saves them 8 hours per week."
+
+Find your beachhead: the single segment where you have an unfair advantage and can dominate completely before expanding. Dominating 100% of a small market is more valuable than having 1% of a large market because it builds case studies, referrals, and pricing power.
+
+SOURCE: YC Advice on Teams
+---------------------------
+The ideal founding team: 2 people with complementary skills who've known each other for at least 1 year. One technical, one business. Equal or near-equal equity split. Both fully committed (no part-time founders).
+
+Solo founders can succeed but face a harder road. YC has funded many solo founders but rarely does it for consumer startups — the emotional support and complementary skills of a cofounder matter most in consumer where feedback loops are slower.
+
+Red flags in founding teams: (1) One founder owns 90%+ (resentment inevitable), (2) founders met on a forum "to start a startup" (mercenary), (3) technical cofounder won't commit until funded (wrong priority order), (4) founders disagree on the business model in the interview.
+
+SOURCE: YC Advice on Market Size
+----------------------------------
+"We're going after a $500B market" is meaningless. What matters: who is your customer on day one, what is their exact problem, and what are they currently paying to solve it? The total market size follows from the unit economics and the number of customers you can realistically reach.
+
+Small markets that are growing fast are better than large stagnant markets. The SaaS market in 2004 looked small. The mobile app market in 2007 looked irrelevant. Ride-sharing in 2009 was dismissed as "taxi disruption." Choose markets with a tailwind.
+
+Regulatory risk is not a dealbreaker if you understand it. Uber, Airbnb, and Stripe all faced massive regulatory headwinds and succeeded anyway. The question is: is there enough user demand to fight the regulation battle? If yes, being first in an overregulated space creates enormous defensive moats.
+
+SOURCE: YC Advice on Go-To-Market
+-----------------------------------
+The best early go-to-market strategy is the most direct: call your first 10 customers on the phone, personally. Email templates don't work for early sales. Founders who will personally call every lead in the early days consistently outperform those who rely on inbound alone.
+
+Pricing: charge more than you think you should. Most founders underprice by 3-5x. If no one complains about your price, you're too cheap. Start at the highest price you can justify, then compete on value. Never compete on price as a startup — established players have more room to cut.
+
+Content marketing takes 6-12 months to show results. Don't rely on it for your first 50 customers. Use direct outreach, referrals from investors, and founder networks first. Content compounds over time and becomes valuable after product-market fit.
