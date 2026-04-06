@@ -7,7 +7,9 @@ __pycache__/
 *.egg-info/
 dist/
 build/
-
+.next/
+node_modules/
+.env
 # Environment / Secrets — NEVER commit these
 .env
 *.env

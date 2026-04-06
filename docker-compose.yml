@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   backend:
@@ -9,17 +9,25 @@ services:
     env_file:
       - ./backend/.env
     volumes:
-      - chroma_data:/app/chroma_data   # persist ChromaDB across restarts
+      - chroma_data:/app/chroma_data # persist ChromaDB across restarts
     restart: unless-stopped
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        # This tells the Next.js frontend where to send API requests
+        # If deploying to the cloud, change localhost to your server's IP/Domain
+        - NEXT_PUBLIC_API_URL=http://localhost:8000
     container_name: foundrai2_frontend
     ports:
-      - "5173:80"
+      - "3000:3000"
     depends_on:
       - backend
     restart: unless-stopped
 
 volumes:
-  chroma_data:   # named volume — survives container restarts
+  chroma_data: # named volume — survives container restarts
+
+
+#docker-compose up --build -d
