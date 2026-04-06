@@ -3,20 +3,23 @@ version: '3.8'
 services:
   backend:
     build: ./backend
-    container_name: foundrai_backend
+    container_name: foundrai2_backend
     ports:
       - "8000:8000"
-    environment:
-      - HF_TOKEN=${HF_TOKEN}
     env_file:
       - ./backend/.env
+    volumes:
+      - chroma_data:/app/chroma_data   # persist ChromaDB across restarts
     restart: unless-stopped
 
   frontend:
     build: ./frontend
-    container_name: foundrai_frontend
+    container_name: foundrai2_frontend
     ports:
       - "5173:80"
     depends_on:
       - backend
     restart: unless-stopped
+
+volumes:
+  chroma_data:   # named volume — survives container restarts

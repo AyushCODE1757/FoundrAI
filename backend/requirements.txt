@@ -4,3 +4,9 @@ requests
 pydantic
 python-dotenv
 huggingface_hub
+reportlab
+langchain-core
+tavily-python
+pytrends
+chromadb
+PyGithub
