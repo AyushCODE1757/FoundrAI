@@ -1,0 +1,56 @@
+PAUL GRAHAM ESSAYS — KEY STARTUP WISDOM
+========================================
+
+SOURCE: "How to Get Startup Ideas" (paulgraham.com)
+-----------------------------------------------------
+The best startup ideas come from noticing problems in your own life. The founders of Airbnb noticed it was hard to find cheap accommodation during a conference. The founders of Stripe noticed it was hard to accept payments on the web. Most successful startups began as a solution to a problem the founders personally experienced.
+
+The way to get startup ideas is not to try to think of startup ideas. It is to look for problems, preferably problems you have yourself. The most important thing is to not screen ideas out. Ideas that seem too niche, too weird, or too small often turn out to be the best ones. Uber started as a black car service for San Francisco tech people. Instagram started as a check-in app with filters. Dropbox started as a utility for one developer who kept forgetting his USB drive.
+
+Good startup ideas have 3 properties: (1) they're something the founders themselves want, (2) that they can build, (3) that few others realize are worth doing. The third criterion is the most interesting. It's selecting for ideas that are "wrong in a good way" — ideas that seem bad but are actually good.
+
+Ideas for startups are worth more the more people you can reach with it. But startups don't start out big. They get there by finding an initial market — usually small — where they have an outsized advantage, then expanding outward from there. Facebook started at Harvard. Amazon started with books. Google started with Stanford search queries.
+
+SOURCE: "Do Things That Don't Scale" (paulgraham.com)
+------------------------------------------------------
+The most common unscalable thing founders have to do at the start is to recruit users manually. Nearly all startups that succeed have to do this. You can't wait for users to come to you. Go find them. Stripe's founders literally went into startup offices and set up Stripe accounts on the spot. Airbnb's founders went to NYC to personally photograph their early hosts' apartments.
+
+The most important unscalable thing founders have to do is turn their users into fans. The way to do this is to talk to your users obsessively. Many founders of successful startups say the pivot to success came from a conversation with a user. Use every tool available to understand exactly what your users want and why they're not using your product yet.
+
+The early adopters of startups are unusually forgiving. They know they're getting something barely finished. They chose you over the incumbents for a reason — usually because they need the feature you're building, or they believe in you. Keep that trust by communicating honestly with them.
+
+SOURCE: "Startup = Growth" (paulgraham.com)
+-------------------------------------------
+A startup is a company designed to grow fast. Being newly founded does not in itself make a company a startup. Nor is it necessary for a startup to work on technology, or take venture funding, or have some sort of "exit." The only essential thing is growth. Everything else we associate with startups follows from growth.
+
+If you want to build a startup, what you need to find is a way to grow at 5-7% per week consistently. That's the rate great startups grow at. Anything that grows consistently at 5% a week will become enormous over time. The math is simple: 5% weekly growth compounded for 4 years = 690x. Weekly growth rate is the primary metric of success for early-stage startups.
+
+The best thing to measure in the early days is user satisfaction. Net Promoter Score (NPS) is a good proxy. If you make 100 users really happy, they will bring you 30 more users for free. Word-of-mouth is the most powerful growth channel for any consumer startup.
+
+SOURCE: "The 18 Mistakes That Kill Startups" (paulgraham.com)
+--------------------------------------------------------------
+The number one mistake: making something nobody wants. More startups die from this than anything else. The solution is to start small, validate fast, and iterate quickly based on what you learn from real users. Talk to 50 potential customers before building anything.
+
+Co-founder conflict is the second biggest cause of startup death. Choose cofounders carefully — ideally people you've known for years. Split equity fairly and agree on vesting from day one.
+
+Running out of money is third. The solution is to find a business model that works while you're small. Don't wait until you have a million users to charge money. If you can't get 10 people to pay you, you won't get a million.
+
+Hiring too many people too fast kills startups. The best early-stage teams are 2-4 people who are all generalists and can each do multiple things well. Every hire should make the company measurably better.
+
+Choosing the wrong platform is a common but underrated mistake. Many startups failed because they bet on Facebook apps, Flash, or specific mobile platforms that died. Always evaluate: what happens to my business if this platform changes its terms?
+
+SOURCE: "How to Raise Money" (paulgraham.com)
+----------------------------------------------
+Investors, especially angels, are often investing in the founder as much as the idea. When you walk into a meeting, the most important thing you can demonstrate is that you understand the problem space deeply, have talked to real users, and can move fast. 
+
+The best fundraising pitch contains: (1) what you do in one sentence, (2) proof that the problem is real (customer quotes, data), (3) why you are the right team to solve it, (4) traction (even tiny traction), (5) why right now (why this idea works now when it wouldn't have worked 5 years ago).
+
+YC-backed companies typically raise their seed rounds at $8-15M valuations post-YC Demo Day. The average YC company that raises beyond seed raises $2-3M seed round. The most important thing is to talk to many investors in parallel, not sequentially, to create urgency.
+
+SOURCE: "Default Alive or Default Dead?" (paulgraham.com)
+----------------------------------------------------------
+If a startup's expenses remain constant and revenues grow at their current rate, will the company reach profitability before it runs out of money? This is "default alive" or "default dead." Most early startups are default dead and don't realize it.
+
+The solution to being default dead is to either cut expenses drastically, grow revenue dramatically, or raise more money. The best founders take this analysis seriously from day one. Build a spreadsheet on day 1 that tracks your monthly burn, your revenue growth rate, and your runway. Update it weekly.
+
+A startup with 18 months of runway at current burn that is not growing is not in a good position. A startup with 6 months of runway that is growing at 20% per month is in an excellent position.
